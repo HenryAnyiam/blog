@@ -13,13 +13,6 @@
         {% if post.author == user %}
         <div class="w-full flex justify-evenly">
             <a class="text-center text-white bg-blue-950 rounded-xl font-bold hover:text-blue-950 hover:bg-white h-fit w-fit p-1" href="{% url 'main_app:update' post.id%}">Edit Post</a>
-            <!-- <form method="POST" action="{% url 'main_app:delete' post.id%}">
-                {% csrf_token %}
-                <input type="hidden" name="_method" value="DELETE">
-                <input type="submit" class="text-center text-white bg-red-500 rounded-xl font-bold hover:text-red-500 hover:bg-white h-fit w-fit p-1"
-                value="Delete Post" id="delete"/>
-            </form> -->
-
             <a id="delete" class="text-center text-white bg-red-500 rounded-xl font-bold hover:text-red-500 hover:bg-white h-fit w-fit p-1" href="{% url 'main_app:delete' post.id%}">Delete Post</a>
         </div>
         {% endif %}
