@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block post-select %}
+text-amber-500 font-bold
+{% endblock %}
+
+{% block placeholder %}
+<div class="w-full flex justify-center items-center h-screen">
+    <div class="bg-transparent shadow-xl rounded-xl h-fit w-72 lg:w-fit">
+        <p class="text-center rounded-xl font-bold font-serif text-blue-950 p-1 w-full mb-2 text-xl">NEW POST</p>
+        {% if error %}
+        <div class="ml-12 text-red-500 text-center text-wrap w-64 flex" style="font-size: x-small;">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'main_app:new' %}">
+            {% csrf_token %}
+            <div class="m-4 lg:grid lg:grid-cols-3 lg:gap-4">
+                <label for="title" class="font-bold font-serif text-blue-950 p-1">Post Title:</label>
+                <input type="text" name="title" id="title" placeholder="Post Title" class="bg-white border-2 border-blue-950 rounded-md p-1 w-52 lg:w-80 lg:col-span-2" required>
+            </div>
+            <div class="m-4 lg:grid lg:grid-cols-3 lg:gap-4">
+                <label for="content" class="font-bold font-serif text-blue-950 p-1">Post Content:</label>
+                <textarea name="content" id="content" placeholder="Post Content"
+                class="bg-white border-2 border-blue-950 rounded-md p-1 w-52 lg:w-80 lg:col-span-2 h-72" required></textarea>
+            </div>
+            <input type="hidden" name="author" id="author" value="{{ user.id }}" required>
+            <div class="m-4 flex justify-center">
+                <input type="submit" value="Continue" class="text-center text-white bg-blue-950 p-2 rounded-xl font-bold hover:text-blue-950 hover:bg-white">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

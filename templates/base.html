@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Blog</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'styles/output.css' %}">
+	</head>
+	<body class="bg-blue-100">
+		<header class="w-full h-fit shadow-md bg-gray-600 flex flex-wrap items-center justify-between">
+			<p class="text-white ml-2.5 font-bold text-ml items-center">Blog</p>
+			<nav class="w-1/2 hidden lg:block">
+				<ul class="flex justify-evenly items-center">
+					<li class="mr-2 text-white hover:underline hover:underline-offset-1 hover:font-bold">
+						<a href="{% url 'main_app:home' %}" class="{% block home-select %}{% endblock %}">Home</a>
+					</li>
+					{% if user.is_authenticated %}
+						<li class="mr-2 text-white hover:underline hover:underline-offset-1 hover:font-bold">
+							<a href="{% url 'main_app:new'%}" class="{% block post-select %}{% endblock %}">New Post</a>
+						</li>
+						<li class="mr-2 text-white hover:underline hover:underline-offset-1 hover:font-bold">
+							<a href="{% url 'main_app:logout' %}">Log Out</a>
+						</li>
+					{% else %}
+						<li class="mr-2 text-white hover:underline hover:underline-offset-1 hover:font-bold">
+							<a href="{% url 'main_app:login' %}" class="{% block login-select %}{% endblock %}">Login</a>
+						</li>
+						<li class="mr-2 text-white hover:underline hover:underline-offset-1 hover:font-bold">
+							<a class="{% block register-select %}{% endblock %}" href="{% url 'main_app:signup' %}">Register</a>
+						</li>
+					{% endif %}
+				</ul>
+			</nav>
+			<nav class="lg:hidden">
+				<button id="sideBarToggle" class="px-2 py-2 text-gray-200 hover:bg-gray-200 focus:outline-none rounded-md mr-1.5 ml-2 opener lg:inline">
+					<img src="{% static 'images/hamburger.svg' %}" alt="Menu" class="h-6 w-6"/>
+				</button>
+				<button id="sideBarClose" class="px-2 py-2 text-gray-200 hover:bg-gray-200 focus:outline-none rounded-md mr-1.5 ml-2 closer hidden lg:hidden">
+					<img src="{% static 'images/close.svg' %}" alt="Menu" class="h-6 w-6"/>
+				</button>
+			</nav>
+		</header>
+		<div class="hidden flex lg:hidden justify-end absolute right-0 z-10" id="menu">
+			<ul class="w-fit h-fit bg-gray-600 p-6 shadow-md">
+				<li class="mr-2 mb-2 text-white flex justify-start hover:font-bold hover:text-amber-500">
+					<a href="{% url 'main_app:home' %}" class="underline underline-offset-1">Home</a>
+				</li>
+				{% if user.is_authenticated %}
+					<li class="mr-2 mb-2 text-white flex justify-start hover:font-bold hover:text-amber-500">
+						<a href="{% url 'main_app:new'%}" class="underline underline-offset-1">New Post</a>
+					</li>
+					<li class="mr-2 mb-2 text-white flex justify-start hover:font-bold hover:text-amber-500">
+						<a href="{% url 'main_app:logout' %}" class="underline underline-offset-1">Log Out</a>
+					</li>
+				{% else %}
+					<li class="mr-2 mb-2 text-white flex justify-start hover:font-bold hover:text-amber-500">
+						<a href="{% url 'main_app:login' %}" class="underline underline-offset-1">Login</a>
+					</li>
+					<li class="mr-2 mb-2 text-white flex justify-start hover:font-bold hover:text-amber-500">
+						<a href="{% url 'main_app:signup' %}" class="underline underline-offset-1">Register</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+		{% block placeholder %}{% endblock %}
+		<script>
+			const toggleMenu = () => {
+				const menu = document.getElementById("menu");
+				menu.classList.toggle("hidden");
+				const closer = document.querySelector(".closer")
+				closer.classList.toggle("hidden");
+				const opener = document.querySelector(".opener");
+				opener.classList.toggle("hidden");
+			}
+			const toggle = document.getElementById("sideBarToggle");
+			toggle.addEventListener("click", () => {
+				toggleMenu()
+			});
+
+			const close = document.getElementById("sideBarClose");
+			close.addEventListener("click", () => {
+				toggleMenu()
+			});
+
+			const menu = document.getElementById("menu")
+
+			document.addEventListener("click", (event) => {
+				if (!menu.classList.contains("hidden")) {
+					if (!menu.contains(event.target) && event.target !== menu
+					&& !toggle.contains(event.target) && event.target !== toggle) {
+						toggleMenu();
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

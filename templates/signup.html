@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block register-select %}
+text-amber-500 font-bold
+{% endblock %}
+
+{% block placeholder %}
+<div class="w-full flex justify-center items-center h-screen">
+    <div class="bg-transparent shadow-xl rounded-xl h-fit w-72 lg:w-fit">
+        <p class="text-center rounded-xl font-bold font-serif text-blue-950 p-1 w-full mb-2 text-xl">Sign Up To Get Started</p>
+        {% if error %}
+        {{ error }}
+        {% endif %}
+        <form method="POST" action="{% url 'main_app:signup' %}">
+            {% csrf_token %}
+            <div class="m-4 lg:grid lg:grid-cols-3 lg:gap-4">
+                <label for="first_name" class="font-bold font-serif text-blue-950 p-1">First Name:</label>
+                <input type="text" name="first_name" id="first_name" placeholder="First Name" class="bg-white border-2 border-blue-950 rounded-md p-1 w-52 lg:w-80 lg:col-span-2" required>
+            </div>
+            <div class="m-4 lg:grid lg:grid-cols-3 lg:gap-4">
+                <label for="last_name" class="font-bold font-serif text-blue-950 p-1">Last Name:</label>
+                <input type="text" name="last_name" id="last_name" placeholder="Last Name" class="bg-white border-2 border-blue-950 rounded-md p-1 w-52 lg:w-80 lg:col-span-2" required>
+            </div>
+            <div class="m-4 lg:grid lg:grid-cols-3 lg:gap-4">
+                <label for="username" class="font-bold font-serif text-blue-950 p-1">Username:</label>
+                <input type="text" name="username" id="username" placeholder="Username" class="bg-white border-2 border-blue-950 rounded-md p-1 w-52 lg:w-80 lg:col-span-2" required>
+            </div>
+            <div class="m-4 lg:grid lg:grid-cols-3 lg:gap-4">
+                <label for="email" class="font-bold font-serif text-blue-950 p-1">Email:</label>
+                <input type="email" name="email" id="email" placeholder="Email Address" class="bg-white border-2 border-blue-950 rounded-md p-1 w-52 lg:w-80 lg:col-span-2" required>
+            </div>
+            <div class="m-4 lg:grid lg:grid-cols-3 lg:gap-4">
+                <label for="password" class="font-bold font-serif text-blue-950 p-1">Password:</label>
+                <input type="password" name="password" id="password" placeholder="Password" class="bg-white border-2 border-blue-950 rounded-md p-1 w-52 lg:w-80 lg:col-span-2" required>
+            </div>
+            <div class="m-4 flex justify-center">
+                <input type="submit" value="Continue" class="text-center text-white bg-blue-950 p-2 rounded-xl font-bold hover:text-blue-950 hover:bg-white">
+            </div>
+        </form>
+        <hr/>
+        <p class="text-center text-blue-950 mb-4">Already Have an Account?<a href="{% url 'main_app:login' %}" class="mx-2 text-blue-950 font-bold text-lg hover:underline hover:decoration-white hover:underline-offset-4 hover:decoration-4">Log In</a></p>
+    </div>
+</div>
+{% endblock %}

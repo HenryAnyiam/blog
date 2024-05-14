@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block home-select %}
+text-amber-500 font-bold
+{% endblock %}
+
+{% block placeholder %}
+<div class="w-full items-center h-screen my-6">
+    {% for post in posts %}
+    <div class="bg-transparent shadow-xl rounded-xl h-fit flex items-center justify-center m-4">
+        <p class="text-center rounded-xl font-bold font-serif text-blue-950 p-1 w-full mb-2 text-xl">{{ post.title }}</p>
+        <a class="text-center text-white bg-blue-950 rounded-xl font-bold hover:text-blue-950 hover:bg-white h-8 w-40" href="{% url 'main_app:post' post.id%}">Read Post</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
