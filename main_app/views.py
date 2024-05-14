@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import DetailView, CreateView, ListView, DeleteView
-from django.views.generic import TemplateView, FormView, UpdateView
+from django.views.generic import TemplateView, FormView, UpdateView, View
 from .models import Post
 from .forms import UserCreateForm, PostCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -96,6 +96,10 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "edit_post.html"
     fields = ["title", "content"]
 
+    def get_success_url(self):
+        """redirect upon successful creation"""
+        return reverse("main_app:home")
+
 
 class PostListView(ListView):
     """view to view all posts"""
@@ -118,11 +122,15 @@ class PostDetailView(DetailView):
         return reverse("main_app:home")
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(View):
     """delete a post"""
 
-    model = Post
     login_url = "/auth/login"
 
-    def get_success_url(self):
-        return reverse("main_app:home")
+    def delete(self, request, pk):
+        """delete post"""
+
+        post = Post.objects.get(id=pk);
+        post.delete()
+
+        return HttpResponseRedirect(reverse("main_app:home"))
